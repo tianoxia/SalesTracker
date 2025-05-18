@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesTracker.Core", "SalesT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesTracker.Infrastructure", "SalesTracker.Infrastructure\SalesTracker.Infrastructure.csproj", "{E6B2F450-DF65-4E30-8B57-A166CC0BA172}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "salestracker.client", "SalesTrackerClient\salestracker.client.esproj", "{F5E35D2C-7651-BA13-5AA1-242E68578C2E}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "salestracker.client", "SalesTracker.Client\salestracker.client.esproj", "{F5E35D2C-7651-BA13-5AA1-242E68578C2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
