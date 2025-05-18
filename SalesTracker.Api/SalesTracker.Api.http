@@ -1,0 +1,6 @@
+@SalesTracker.Api_HostAddress = http://localhost:5187
+
+GET {{SalesTracker.Api_HostAddress}}/api/Products
+Accept: application/json
+
+###
