@@ -12,7 +12,7 @@
    npm run dev
 
 3. Open:
-   http://localhost:5173
+   http://localhost:5173 (an example local react test url)
 
 Project Structure
 
