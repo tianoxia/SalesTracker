@@ -4,9 +4,9 @@ namespace SalesTracker.Core.Interfaces
 {
     public interface ISaleRepository : IRepository<Sale>
     {
-        Task<IEnumerable<Sale>> GetSalesAsync();
-        Task<IEnumerable<Sale>> GetBySalespersonAsync(int salespersonId);
-        Task<IEnumerable<Sale>> GetByProductAsync(int productId);
-        Task<IEnumerable<Sale>> GetByCustomerAsync(int customerId);
+        Task<IEnumerable<Sale>> GetSalesAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<Sale>> GetBySalespersonAsync(int salespersonId, CancellationToken cancellationToken);
+        Task<IEnumerable<Sale>> GetByProductAsync(int productId, CancellationToken cancellationToken);
+        Task<IEnumerable<Sale>> GetByCustomerAsync(int customerId, CancellationToken cancellationToken);
     }
 }

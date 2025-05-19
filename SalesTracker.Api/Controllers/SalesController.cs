@@ -25,7 +25,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sale>>> GetAllSales()
+        public async Task<ActionResult<IEnumerable<Sale>>> GetAllSales(CancellationToken cancellationToken)
         {
             return Ok(await _salesRepository.GetAllAsync());
         }
@@ -40,9 +40,10 @@ namespace SalesTracker.API.Controllers
             return Ok(sale);
         }
         [HttpGet("by-daterange")]
-        public async Task<ActionResult<IEnumerable<Sale>>> GetSalesByDateRange([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        public async Task<ActionResult<IEnumerable<Sale>>> GetSalesByDateRange([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate
+            , CancellationToken cancellationToken)
         {
-            var query = await _salesRepository.GetSalesAsync();
+            var query = await _salesRepository.GetSalesAsync(cancellationToken);
             
             if (startDate.HasValue)
             {
@@ -58,7 +59,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Sale>> PostSale(CreateSaleDto saleDto)
+        public async Task<ActionResult<Sale>> PostSale(CreateSaleDto saleDto, CancellationToken cancellationToken)
         {
             // Check if product exists
             var product = await _productRepository.GetByIdAsync(saleDto.ProductId);
@@ -67,13 +68,13 @@ namespace SalesTracker.API.Controllers
                 return BadRequest("Product not found");
             }
             // Check if salesperson exists
-            var salesperson = await _salesRepository.GetBySalespersonAsync(saleDto.SalespersonId);
+            var salesperson = await _salesRepository.GetBySalespersonAsync(saleDto.SalespersonId, cancellationToken);
             if (salesperson == null)
             {
                 return BadRequest("Salesperson not found");
             }
             // Check if customer exists
-            var customer = await _salesRepository.GetByCustomerAsync(saleDto.CustomerId);
+            var customer = await _salesRepository.GetByCustomerAsync(saleDto.CustomerId, cancellationToken);
             if (customer == null)
             {
                 return BadRequest("Customer not found");

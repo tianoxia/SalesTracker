@@ -20,13 +20,13 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(CancellationToken cancellationToken)
         {
             return Ok(await _productRepository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Product>> GetProduct(int id, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
@@ -37,7 +37,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct(Product product, CancellationToken cancellationToken)
         {
             // Check if product with the same name and manufacturer already exists
             var existingProduct = await _productRepository.GetAllAsync();
@@ -50,7 +50,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, ProductDto product)
+        public async Task<IActionResult> PutProduct(int id, ProductDto product, CancellationToken cancellationToken)
         {
             var existingProduct = await _productRepository.GetByIdAsync(id);
             if (existingProduct == null)
@@ -64,7 +64,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id, CancellationToken cancellationToken)
         {
             if (!await _productRepository.ExistsAsync(id))
             {
@@ -76,13 +76,13 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpGet("commission-percentage/{id}")]
-        public async Task<ActionResult<decimal>> GetProductCommissionPercentage(int id)
+        public async Task<ActionResult<decimal>> GetProductCommissionPercentage(int id, CancellationToken cancellationToken)
         {
             if (!await _productRepository.ExistsAsync(id))
             {
                 return NotFound();
             }
-            return Ok(await _productRepository.GetCommissionPercentageAsync(id));
+            return Ok(await _productRepository.GetCommissionPercentageAsync(id, cancellationToken));
         }
     }
 }

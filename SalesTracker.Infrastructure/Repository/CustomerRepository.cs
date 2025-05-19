@@ -9,7 +9,7 @@ namespace SalesTracker.Infrastructure.Repositories
     {
         public CustomerRepository(SalesDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Customer>> GetActiveCustomersAsync()
+        public async Task<IEnumerable<Customer>> GetActiveCustomersAsync(CancellationToken cancellationToken)
         {
             // Active customers are those who have made at least one purchase
             return await _context.Customers

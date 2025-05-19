@@ -6,6 +6,6 @@ namespace SalesTracker.Core.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<decimal> GetCommissionPercentageAsync(int productId);
+        Task<decimal> GetCommissionPercentageAsync(int productId, CancellationToken cancellationToken);
     }
 }

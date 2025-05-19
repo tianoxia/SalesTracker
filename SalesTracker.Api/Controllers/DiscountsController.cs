@@ -15,13 +15,13 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Discount>>> GetDiscounts()
+        public async Task<ActionResult<IEnumerable<Discount>>> GetDiscounts(CancellationToken cancellationToken)
         {
             return Ok(await _discountRepository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Discount>> GetDiscount(int id)
+        public async Task<ActionResult<Discount>> GetDiscount(int id, CancellationToken cancellationToken)
         {
             var discount = await _discountRepository.GetByIdAsync(id);
             if (discount == null)
@@ -32,7 +32,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Discount>> PostDiscount(Discount discount)
+        public async Task<ActionResult<Discount>> PostDiscount(Discount discount, CancellationToken cancellationToken)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiscount(int id, Discount discount)
+        public async Task<IActionResult> PutDiscount(int id, Discount discount, CancellationToken cancellationToken)
         {
             if (id != discount.Id)
             {
@@ -65,7 +65,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiscount(int id)
+        public async Task<IActionResult> DeleteDiscount(int id, CancellationToken cancellationToken)
         {
             if (!await _discountRepository.ExistsAsync(id))
             {

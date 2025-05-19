@@ -21,7 +21,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Salesperson>>> GetSalespersons()
+        public async Task<ActionResult<IEnumerable<Salesperson>>> GetSalespersons(CancellationToken cancellationToken)
         {
             return Ok(await _salespersonRepository.GetAllAsync());
         }
@@ -38,7 +38,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Salesperson>> PostSalesperson(Salesperson salesperson)
+        public async Task<ActionResult<Salesperson>> PostSalesperson(Salesperson salesperson, CancellationToken cancellationToken)
         {
             var existingSalespersons = await _salespersonRepository.GetAllAsync();
             if (existingSalespersons.Any(s => s.Phone == salesperson.Phone && s.FirstName == salesperson.FirstName && s.LastName == salesperson.LastName))
@@ -50,7 +50,7 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalesperson(int id, SalespersonUpdateDto salesperson)
+        public async Task<IActionResult> PutSalesperson(int id, SalespersonUpdateDto salesperson, CancellationToken cancellationToken)
         {
             var existingSalesperson = await _salespersonRepository.GetByIdAsync(id);
             if (existingSalesperson == null)

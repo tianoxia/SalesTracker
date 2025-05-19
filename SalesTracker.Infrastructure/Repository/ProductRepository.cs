@@ -11,7 +11,7 @@ namespace SalesTracker.Infrastructure.Repositories
         {
         }
 
-        public async Task<decimal> GetCommissionPercentageAsync(int productId)
+        public async Task<decimal> GetCommissionPercentageAsync(int productId, CancellationToken cancellationToken)
         {
             var product = await GetByIdAsync(productId);
             return product?.CommissionPercentage ?? 0m;

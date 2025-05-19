@@ -10,7 +10,7 @@ namespace SalesTracker.Infrastructure.Repositories
         public SaleRepository(SalesDbContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<Sale>> GetSalesAsync()
+        public async Task<IEnumerable<Sale>> GetSalesAsync(CancellationToken cancellationToken)
         {
             return await _context.Sales
                 .Include(s => s.Product)
@@ -19,7 +19,7 @@ namespace SalesTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Sale>> GetBySalespersonAsync(int salespersonId)
+        public async Task<IEnumerable<Sale>> GetBySalespersonAsync(int salespersonId, CancellationToken cancellationToken)
         {
             return await _context.Sales
                 .Include(s => s.Product)
@@ -28,7 +28,7 @@ namespace SalesTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Sale>> GetByProductAsync(int productId)
+        public async Task<IEnumerable<Sale>> GetByProductAsync(int productId, CancellationToken cancellationToken)
         {
             return await _context.Sales
                 .Include(s => s.Salesperson)
@@ -37,7 +37,7 @@ namespace SalesTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Sale>> GetByCustomerAsync(int customerId)
+        public async Task<IEnumerable<Sale>> GetByCustomerAsync(int customerId, CancellationToken cancellationToken)
         {
             return await _context.Sales
                 .Include(s => s.Product)

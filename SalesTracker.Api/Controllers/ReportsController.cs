@@ -14,7 +14,7 @@ namespace SalesTracker.Api.Controllers
         public ReportsController(SalesDbContext context) => _context = context;
 
         [HttpGet("quarterly-commission/{year}/{quarter}")]
-        public async Task<ActionResult> GetQuarterlyCommissionReport(int year, int quarter)
+        public async Task<ActionResult> GetQuarterlyCommissionReport(int year, int quarter, CancellationToken cancellationToken)
         {
             var startDate = new DateTime(year, (quarter - 1) * 3 + 1, 1);
             var endDate = startDate.AddMonths(3).AddDays(-1);

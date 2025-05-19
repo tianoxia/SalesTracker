@@ -16,9 +16,15 @@ namespace SalesTracker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(CancellationToken cancellationToken)
         {
             return Ok(await _customerRepository.GetAllAsync());
+        }
+
+        [HttpGet("active")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetActiveCustomers(CancellationToken cancellationToken)
+        {
+            return Ok(await _customerRepository.GetActiveCustomersAsync(cancellationToken));
         }
     }
 }
