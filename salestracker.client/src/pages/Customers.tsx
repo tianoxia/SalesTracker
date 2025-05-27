@@ -14,15 +14,13 @@ export default function Customers() {
 
     return (
         <div className="sales-tracker-container">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="sales-tracker-header">Customer List</h1>
-                <Link
-                    to="/"
-                    className="back-link rounded"
-                >
-                    Back to Dashboard
-                </Link>
-            </div>
+            <h1 className="sales-tracker-header">Customer List</h1>
+            <Link
+                to="/"
+                className="back-link rounded"
+            >
+                Back to Dashboard
+            </Link>
 
             <table className="sales-tracker-table">
                 <thead>

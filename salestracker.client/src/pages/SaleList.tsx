@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { Sale } from '../types/sales';
 import './SalesTracker.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSales } from '../api/salesApi';
 import DateRangeFilter from './DateRangeFilter';

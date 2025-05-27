@@ -109,7 +109,26 @@ export default function EditSalesperson() {
                         required
                     />
                 </div>
-
+                <div className="form-group">
+                    <label>Address</label>
+                    <input
+                        type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Phone</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
                 {/* Add other fields with the same structure */}
                 <div className="form-group">
                     <label>Start Date (MM/DD/YYYY)</label>
