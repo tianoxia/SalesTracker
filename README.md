@@ -1,6 +1,6 @@
 # Sales Tracker
 
-# A simple sales tracking application to help track the commission and determine each salesperson’s quarterly bonus
+# A sales tracking application to help track the commission and determine each salesperson’s quarterly bonus
 
 ## Get Started
 
