@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getSalespersons } from '../api/salesApi';
-import type { Salesperson } from '../types/sales';
+import type { GridSetting, Salesperson } from '../types/sales';
 import './SalesTracker.css';
 
-export default function Salespersons() {
+export default function Salespersons({ columns, heading }: GridSetting) {
 
     // Fetch salespersons data
     const { data: salesperson, isLoading } = useQuery<Salesperson[]>({
@@ -16,7 +16,7 @@ export default function Salespersons() {
 
     return (
         <div className="sales-tracker-container">
-            <h1 className="sales-tracker-header">Sales Team</h1>
+            <h1 className="sales-tracker-header">{heading}</h1>
             <Link
                 to="/"
                 className="back-link rounded">
@@ -24,12 +24,10 @@ export default function Salespersons() {
             </Link>
             <table className="sales-tracker-table">
                 <thead>
-                    <tr className="bg-gray-100">
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Start Date</th>
-                        <th>Termination Date</th>
-                        <th>Actions</th>
+                    <tr>
+                        {columns.map(col => (
+                            <th>{col}</th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
@@ -43,7 +41,7 @@ export default function Salespersons() {
                                 {new Date(sp.startDate).toLocaleDateString()}
                             </td>
                             <td>
-                                {sp.terminationDate ? new Date(sp.terminationDate).toLocaleDateString() : 'N/A'}
+                                {sp.terminationDate && new Date(sp.terminationDate).toLocaleDateString()}
                             </td>
                             <td>
                                 <Link
@@ -54,7 +52,7 @@ export default function Salespersons() {
                         </tr>
                     ))}
                 </tbody>
-            </table>            
+            </table>
         </div>
     );
 }

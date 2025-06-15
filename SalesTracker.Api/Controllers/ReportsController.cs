@@ -26,8 +26,8 @@ namespace SalesTracker.Api.Controllers
                 {
                     SalespersonId = g.Key.Id,
                     SalespersonName = g.Key.FirstName + " " + g.Key.LastName,
-                    TotalSales = g.Sum(s => s.Product.SalePrice),
-                    TotalCommission = g.Sum(s => s.Product.SalePrice * s.Product.CommissionPercentage / 100)
+                    TotalSales = g.Sum(s => s.Product.PurchasePrice),
+                    TotalCommission = g.Sum(s => s.Product.PurchasePrice * s.Product.CommissionPercentage / 100)
                 })
                 .ToListAsync();
 

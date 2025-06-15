@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getCustomers } from '../api/salesApi';
 import './SalesTracker.css';
-import type { Customer } from '../types/sales';
+import type { Customer, GridSetting } from '../types/sales';
 
-export default function Customers() {
+export default function Customers({ columns, heading }: GridSetting) {
     const { data: customers, isLoading } = useQuery<Customer[]>({
         queryKey: ['customers'],
         queryFn: getCustomers
@@ -14,7 +14,7 @@ export default function Customers() {
 
     return (
         <div className="sales-tracker-container">
-            <h1 className="sales-tracker-header">Customer List</h1>
+            <h1 className="sales-tracker-header">{heading}</h1>
             <Link
                 to="/"
                 className="back-link rounded"
@@ -25,11 +25,8 @@ export default function Customers() {
             <table className="sales-tracker-table">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Start Date</th>
+                        {columns.map(col => (
+                            <th>{col}</th>))}
                     </tr>
                 </thead>
                 <tbody>

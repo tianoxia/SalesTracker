@@ -44,7 +44,7 @@ namespace SalesTracker.API.Controllers
             , CancellationToken cancellationToken)
         {
             var query = await _salesRepository.GetSalesAsync(cancellationToken);
-            
+
             if (startDate.HasValue)
             {
                 query = query.Where(s => s.SalesDate >= startDate.Value);
@@ -66,6 +66,10 @@ namespace SalesTracker.API.Controllers
             if (product == null)
             {
                 return BadRequest("Product not found");
+            }
+            else if (product.QtyOnHand < 1)
+            {
+                return BadRequest("Product is out of stock");
             }
             // Check if salesperson exists
             var salesperson = await _salesRepository.GetBySalespersonAsync(saleDto.SalespersonId, cancellationToken);

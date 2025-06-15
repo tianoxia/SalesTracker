@@ -98,3 +98,8 @@ export interface ApiResponse<T> {
     message?: string;
     success: boolean;
 }
+
+export interface GridSetting {
+    columns: string[];
+    heading: string
+}

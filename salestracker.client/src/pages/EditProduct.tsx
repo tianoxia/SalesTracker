@@ -68,7 +68,7 @@ export default function EditProduct() {
                 <h1 className="form-header">Edit Product</h1>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Product Name</label>
                     <input

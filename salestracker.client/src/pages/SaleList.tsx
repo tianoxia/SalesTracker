@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { Sale } from '../types/sales';
+import type { Sale, GridSetting } from '../types/sales';
 import './SalesTracker.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ interface DateFilter {
     startDate: Date | null;
     endDate: Date | null;
 }
-export default function SalesList() {
+export default function SalesList({columns, heading }: GridSetting) {
     const [sales, setSales] = useState<Sale[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -56,7 +56,7 @@ export default function SalesList() {
 
     return (
         <div className="sales-tracker-container">            
-            <h1 className="sales-tracker-header">Sales Records</h1>
+            <h1 className="sales-tracker-header">{ heading }</h1>
             <Link
                 to="/"
                 className="back-link rounded">
@@ -80,12 +80,8 @@ export default function SalesList() {
             <table className="sales-tracker-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Product</th>
-                        <th>Customer</th>
-                        <th>Price</th>
-                        <th>Salesperson</th>
-                        <th>Commission</th>
+                        {columns.map((col, index) => (
+                            <th key={index}>{col}</th>))}
                     </tr>
                 </thead>
                 <tbody>

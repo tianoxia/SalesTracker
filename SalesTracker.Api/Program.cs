@@ -22,7 +22,7 @@ builder.Services.AddLogging(logging =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<IDbConnectionFactory, SqlConnectionFactory>();
 builder.Services.AddDbContext<SalesDbContext>(options =>
         options.UseInMemoryDatabase("SalesTrackerTestDB"));
 builder.Services.AddAutoMapper(typeof(MappingProfileConfiguration));
