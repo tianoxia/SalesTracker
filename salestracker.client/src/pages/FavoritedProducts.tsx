@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
-import { BagHeartFill } from 'react-bootstrap-icons';
 import { useProductContext } from '../contexts/ProductContext';
 import type { GridSetting } from '../types/sales';
 import './SalesTracker.css';
 
 export default function FavoritedProducts({columns, heading }: GridSetting) {
-    const { favorites, removeFromFavorites } = useProductContext();
+    const { favorites } = useProductContext();
 
     if (favorites.length === 0) {
         return (
