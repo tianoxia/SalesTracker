@@ -53,25 +53,22 @@ steps:
 - script: |
     npm ci
     npx vite build --mode production --outDir dist
-    if not exist "$(Build.SourcesDirectory)\salestracker.client\dist" (
+    if not exist "dist" (
       echo Build finished but dist folder was not created.
       exit /b 1
     )
+    dir dist
   displayName: 'Build React client'
   workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
 
 - script: |
-    set DEPLOY_DIR=$(Build.SourcesDirectory)\salestracker.client\dist
-    if not exist "%DEPLOY_DIR%" (
-      if exist "$(Build.SourcesDirectory)\dist" (
-        set DEPLOY_DIR=$(Build.SourcesDirectory)\dist
-      )
-    )
-    if not exist "%DEPLOY_DIR%" (
-      echo Dist folder not found in expected locations.
-      dir "$(Build.SourcesDirectory)\salestracker.client"
-      dir "$(Build.SourcesDirectory)"
+    if not exist "dist" (
+      echo Dist folder not found.
+      echo Current directory:
+      cd
+      dir
       exit /b 1
     )
-    npx --yes @azure/static-web-apps-cli deploy "%DEPLOY_DIR%" --deployment-token "$(staticWebAppApiToken)" --env production
+    npx --yes @azure/static-web-apps-cli deploy "dist" --deployment-token "$(staticWebAppApiToken)" --env production
   displayName: 'Deploy React client to Azure Static Web Apps'
+  workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
