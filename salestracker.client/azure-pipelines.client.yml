@@ -21,7 +21,7 @@ variables:
   azureServiceConnection: 'Azure subscription 1(deb09ec0-d58c-47c9-a1f3-49d2ed4098fc)'
   azureSubscriptionId: 'deb09ec0-d58c-47c9-a1f3-49d2ed4098fc'
   resourceGroupName: 'rg-dev-rickyx'
-  deploymentLocation: 'Central US'
+  deploymentLocation: 'East US'
   staticWebAppName: 'salestracker-client-app'
   staticWebAppApiToken: '$(STATIC_WEB_APP_API_TOKEN)'
 
