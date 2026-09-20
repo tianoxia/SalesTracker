@@ -54,17 +54,6 @@ steps:
     npm ci
     npx vite build --mode production --outDir dist
     if not exist "dist" (
-      echo Build finished but dist folder was not created.
-      exit /b 1
-    )
-    dir dist
-  displayName: 'Build React client'
-  workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
-
-- script: |
-    npm ci
-    npx vite build --mode production --outDir dist
-    if not exist "dist" (
       echo dist folder not found after build
       dir
       exit /b 1
