@@ -25,26 +25,19 @@ steps:
   displayName: 'Create or update resource group'
   inputs:
     azureSubscription: '$(azureServiceConnection)'
-    scriptType: 'bash'
+    scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az group create \
-        --subscription "$(azureSubscriptionId)" \
-        --name "$(resourceGroupName)" \
-        --location "$(deploymentLocation)"
+      az group create --subscription "$(azureSubscriptionId)" --name "$(resourceGroupName)" --location "$(deploymentLocation)"
 
 - task: AzureCLI@2
   displayName: 'Deploy Static Web App infrastructure (Bicep)'
   inputs:
     azureSubscription: '$(azureServiceConnection)'
-    scriptType: 'bash'
+    scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az deployment group create \
-        --subscription "$(azureSubscriptionId)" \
-        --resource-group "$(resourceGroupName)" \
-        --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" \
-        --parameters location="$(deploymentLocation)" staticWebAppName="$(staticWebAppName)"
+      az deployment group create --subscription "$(azureSubscriptionId)" --resource-group "$(resourceGroupName)" --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" --parameters location="$(deploymentLocation)" staticWebAppName="$(staticWebAppName)"
 
 - script: |
     npm ci
