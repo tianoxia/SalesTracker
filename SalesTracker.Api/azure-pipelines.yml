@@ -4,7 +4,26 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - SalesTracker.Api/**
+    - SalesTracker.Core/**
+    - SalesTracker.Infrastructure/**
+    - SalesTracker.Api/azure-pipelines.yml
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - SalesTracker.Api/**
+    - SalesTracker.Core/**
+    - SalesTracker.Infrastructure/**
+    - SalesTracker.Api/azure-pipelines.yml
 
 pool:
   name: 'SelfHosted-Test'

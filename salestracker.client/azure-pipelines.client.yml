@@ -1,8 +1,18 @@
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - salestracker.client/**
 
 pr:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - salestracker.client/**
 
 pool:
   name: 'SelfHosted-Test'
@@ -25,7 +35,7 @@ steps:
   displayName: 'Create or update resource group'
   inputs:
     azureSubscription: '$(azureServiceConnection)'
-    scriptType: 'pscore'
+    scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
       az group create --subscription "$(azureSubscriptionId)" --name "$(resourceGroupName)" --location "$(deploymentLocation)"
@@ -34,7 +44,7 @@ steps:
   displayName: 'Deploy Static Web App infrastructure (Bicep)'
   inputs:
     azureSubscription: '$(azureServiceConnection)'
-    scriptType: 'pscore'
+    scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
       az deployment group create --subscription "$(azureSubscriptionId)" --resource-group "$(resourceGroupName)" --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" --parameters location="$(deploymentLocation)" staticWebAppName="$(staticWebAppName)"
