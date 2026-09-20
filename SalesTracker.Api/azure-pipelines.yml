@@ -34,7 +34,7 @@ variables:
   buildConfiguration: 'Release'
   resourceGroupName: 'rg-dev-rickyx'
   deploymentLocation: 'East US'
-  templateLocation: 'eastus'
+  templateLocation: 'centralus'
   apiProject: 'SalesTracker.Api/SalesTracker.Api.csproj'
   webAppName: 'salestracker-api-app'
 
