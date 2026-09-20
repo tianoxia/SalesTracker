@@ -51,10 +51,11 @@ steps:
       az deployment group create --subscription "$(azureSubscriptionId)" --resource-group "$(resourceGroupName)" --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" --parameters location="$(staticWebAppLocation)" staticWebAppName="$(staticWebAppName)"
 
 - script: |
-    if "%STATIC_WEB_APP_API_TOKEN%"=="" (
-      echo STATIC_WEB_APP_API_TOKEN is empty
+    if "%SWA_TOKEN%"=="" (
+      echo token empty
       exit /b 1
     )
-    npx --yes @azure/static-web-apps-cli deploy "dist" --deployment-token "%STATIC_WEB_APP_API_TOKEN%" --env production --verbose
-  displayName: 'Build and deploy React client'
+    npx --yes @azure/static-web-apps-cli deploy "dist" --deployment-token "%SWA_TOKEN%" --env production
   workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
+  env:
+    SWA_TOKEN: $(STATIC_WEB_APP_API_TOKEN)
