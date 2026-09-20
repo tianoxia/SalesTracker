@@ -21,7 +21,8 @@ variables:
   azureServiceConnection: 'Azure subscription 1(deb09ec0-d58c-47c9-a1f3-49d2ed4098fc)'
   azureSubscriptionId: 'deb09ec0-d58c-47c9-a1f3-49d2ed4098fc'
   resourceGroupName: 'rg-dev-rickyx'
-  deploymentLocation: 'East US'
+  resourceGroupLocation: 'East US'
+  staticWebAppLocation: 'eastus2'
   staticWebAppName: 'salestracker-client-app'
   staticWebAppApiToken: '$(STATIC_WEB_APP_API_TOKEN)'
 
@@ -38,7 +39,7 @@ steps:
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az group create --subscription "$(azureSubscriptionId)" --name "$(resourceGroupName)" --location "$(deploymentLocation)"
+      az group create --subscription "$(azureSubscriptionId)" --name "$(resourceGroupName)" --location "$(resourceGroupLocation)"
 
 - task: AzureCLI@2
   displayName: 'Deploy Static Web App infrastructure (Bicep)'
@@ -47,7 +48,7 @@ steps:
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az deployment group create --subscription "$(azureSubscriptionId)" --resource-group "$(resourceGroupName)" --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" --parameters location="$(deploymentLocation)" staticWebAppName="$(staticWebAppName)"
+      az deployment group create --subscription "$(azureSubscriptionId)" --resource-group "$(resourceGroupName)" --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" --parameters location="$(staticWebAppLocation)" staticWebAppName="$(staticWebAppName)"
 
 - script: |
     npm ci
