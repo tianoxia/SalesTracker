@@ -16,6 +16,8 @@ variables:
   resourceGroupName: 'rg-dev-rickyx'
   deploymentLocation: 'Central US'
   templateLocation: 'centralus'
+  apiProject: 'SalesTracker.Api/SalesTracker.Api.csproj'
+  webAppName: 'salestracker-api-app'
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
@@ -54,3 +56,20 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish API'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '$(apiProject)'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+    zipAfterPublish: true
+
+- task: AzureWebApp@1
+  displayName: 'Deploy API to App Service'
+  inputs:
+    azureSubscription: 'Azure subscription 1(deb09ec0-d58c-47c9-a1f3-49d2ed4098fc)'
+    appType: 'webApp'
+    appName: '$(webAppName)'
+    package: '$(Build.ArtifactStagingDirectory)/api/**/*.zip'
