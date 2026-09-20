@@ -56,10 +56,6 @@ steps:
   displayName: 'Build React client'
   workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
 
-- task: AzureStaticWebApp@0
+- script: |
+    npx --yes @azure/static-web-apps-cli deploy "$(Build.SourcesDirectory)/salestracker.client/dist" --deployment-token "$(staticWebAppApiToken)" --env production
   displayName: 'Deploy React client to Azure Static Web Apps'
-  inputs:
-    app_location: 'salestracker.client'
-    output_location: 'dist'
-    skip_app_build: true
-    azure_static_web_apps_api_token: '$(staticWebAppApiToken)'
