@@ -15,7 +15,17 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(deb09ec0-d58c-47c9-a1f3-49d2ed4098fc)'
+    subscriptionId: 'deb09ec0-d58c-47c9-a1f3-49d2ed4098fc'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'rg-dev-rickyx'
+    location: 'East US'
+    templateLocation: 'Linked artifact'
+    csmFile: 'main.bicep'
+    deploymentMode: 'Incremental'
 
 - task: NuGetCommand@2
   inputs:
