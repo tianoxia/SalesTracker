@@ -31,9 +31,17 @@ steps:
     overrideParameters: '-location "$(templateLocation)"'
     deploymentMode: 'Incremental'
 
-- task: NuGetCommand@2
+- task: UseDotNet@2
+  displayName: 'Install .NET SDK 9.x'
   inputs:
-    restoreSolution: '$(solution)'
+    packageType: 'sdk'
+    version: '9.0.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore .NET projects'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
 
 - task: VSBuild@1
   inputs:
