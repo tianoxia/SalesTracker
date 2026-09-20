@@ -29,7 +29,7 @@ steps:
     resourceGroupName: '$(resourceGroupName)'
     location: '$(deploymentLocation)'
     templateLocation: 'Linked artifact'
-    csmFile: 'main.bicep'
+    csmFile: 'SalesTracker.Api/main.bicep'
     overrideParameters: '-location "$(templateLocation)"'
     deploymentMode: 'Incremental'
 

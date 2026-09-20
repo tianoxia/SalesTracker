@@ -1,0 +1,61 @@
+trigger:
+- master
+
+pr:
+- master
+
+pool:
+  name: 'SelfHosted-Test'
+
+variables:
+  azureServiceConnection: 'Azure subscription 1(deb09ec0-d58c-47c9-a1f3-49d2ed4098fc)'
+  azureSubscriptionId: 'deb09ec0-d58c-47c9-a1f3-49d2ed4098fc'
+  resourceGroupName: 'rg-dev-rickyx'
+  deploymentLocation: 'Central US'
+  staticWebAppName: 'salestracker-client-app'
+  staticWebAppApiToken: '$(STATIC_WEB_APP_API_TOKEN)'
+
+steps:
+- task: UseNode@1
+  displayName: 'Use Node.js 20'
+  inputs:
+    version: '20.x'
+
+- task: AzureCLI@2
+  displayName: 'Create or update resource group'
+  inputs:
+    azureSubscription: '$(azureServiceConnection)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az group create \
+        --subscription "$(azureSubscriptionId)" \
+        --name "$(resourceGroupName)" \
+        --location "$(deploymentLocation)"
+
+- task: AzureCLI@2
+  displayName: 'Deploy Static Web App infrastructure (Bicep)'
+  inputs:
+    azureSubscription: '$(azureServiceConnection)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create \
+        --subscription "$(azureSubscriptionId)" \
+        --resource-group "$(resourceGroupName)" \
+        --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" \
+        --parameters location="$(deploymentLocation)" staticWebAppName="$(staticWebAppName)"
+
+- script: |
+    npm ci
+    npm run build
+  displayName: 'Build React client'
+  workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
+
+- task: AzureStaticWebApp@0
+  displayName: 'Deploy React client to Azure Static Web Apps'
+  inputs:
+    app_location: 'salestracker.client'
+    output_location: 'dist'
+    skip_app_build: true
+    azure_static_web_apps_api_token: '$(staticWebAppApiToken)'
