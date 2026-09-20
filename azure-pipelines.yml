@@ -13,6 +13,9 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  resourceGroupName: 'rg-dev-rickyx'
+  deploymentLocation: 'Central US'
+  templateLocation: 'centralus'
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
@@ -21,10 +24,11 @@ steps:
     azureResourceManagerConnection: 'Azure subscription 1(deb09ec0-d58c-47c9-a1f3-49d2ed4098fc)'
     subscriptionId: 'deb09ec0-d58c-47c9-a1f3-49d2ed4098fc'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'rg-dev-rickyx'
-    location: 'East US'
+    resourceGroupName: '$(resourceGroupName)'
+    location: '$(deploymentLocation)'
     templateLocation: 'Linked artifact'
     csmFile: 'main.bicep'
+    overrideParameters: '-location "$(templateLocation)"'
     deploymentMode: 'Incremental'
 
 - task: NuGetCommand@2

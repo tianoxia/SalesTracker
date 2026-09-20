@@ -1,7 +1,7 @@
 targetScope = 'resourceGroup'
 
 @description('Azure region for the resources.')
-param location string = resourceGroup().location
+param location string = 'centralus'
 
 @description('App Service plan name.')
 param appServicePlanName string = 'salestracker-plan'
