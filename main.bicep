@@ -9,15 +9,18 @@ param appServicePlanName string = 'salestracker-plan'
 @description('App Service name. Must be globally unique.')
 param appServiceName string = 'salestracker-api-app'
 
+@description('Pricing SKU for the App Service plan.')
+param skuName string = 'F1'
+
 @description('Pricing tier for the App Service plan.')
-param skuName string = 'B1'
+param skuTier string = 'Free'
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
   location: location
   sku: {
 	name: skuName
-	tier: 'Basic'
+	tier: skuTier
 	capacity: 1
   }
   properties: {}
