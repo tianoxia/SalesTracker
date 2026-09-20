@@ -62,13 +62,14 @@ steps:
   workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
 
 - script: |
+    npm ci
+    npx vite build --mode production --outDir dist
     if not exist "dist" (
-      echo Dist folder not found.
-      echo Current directory:
-      cd
+      echo dist folder not found after build
       dir
       exit /b 1
     )
+    dir dist
     npx --yes @azure/static-web-apps-cli deploy "dist" --deployment-token "$(staticWebAppApiToken)" --env production
-  displayName: 'Deploy React client to Azure Static Web Apps'
+  displayName: 'Build and deploy React client'
   workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
