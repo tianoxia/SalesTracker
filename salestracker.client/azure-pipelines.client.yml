@@ -56,6 +56,8 @@ steps:
     echo Working directory before build:
     cd
     call npm ci
+
+    set VITE_API_URL=https://salestracker-api-app.azurewebsites.net/api
     call npx vite build --mode production --outDir dist
     set DIST_DIR=%CD%\dist
     if not exist "%DIST_DIR%\index.html" (
