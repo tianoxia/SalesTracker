@@ -51,11 +51,26 @@ steps:
       az deployment group create --subscription "$(azureSubscriptionId)" --resource-group "$(resourceGroupName)" --template-file "$(Build.SourcesDirectory)/salestracker.client/staticwebapp.bicep" --parameters location="$(staticWebAppLocation)" staticWebAppName="$(staticWebAppName)"
 
 - script: |
-    if "%SWA_TOKEN%"=="" (
-      echo token empty
+    echo CLIENT_YAML_MARKER_20260920_A
+    echo Build.SourceVersion=$(Build.SourceVersion)
+    echo Working directory before build:
+    cd
+    call npm ci
+    call npx vite build --mode production --outDir dist
+    set DIST_DIR=%CD%\dist
+    if not exist "%DIST_DIR%\index.html" (
+      echo dist\index.html not found after build
+      echo Current directory: %CD%
+      dir
       exit /b 1
     )
-    npx --yes @azure/static-web-apps-cli deploy "dist" --deployment-token "%SWA_TOKEN%" --env production
+    dir "%DIST_DIR%"
+    if "%SWA_TOKEN%"=="" (
+      echo SWA token is empty at runtime
+      exit /b 1
+    )
+    call npx --yes @azure/static-web-apps-cli deploy "%DIST_DIR%" --deployment-token "%SWA_TOKEN%" --env production --verbose
+  displayName: 'Build and deploy React client'
   workingDirectory: '$(Build.SourcesDirectory)/salestracker.client'
   env:
     SWA_TOKEN: $(STATIC_WEB_APP_API_TOKEN)
