@@ -20,7 +20,32 @@ A sales tracking application to help track commission and determine each salespe
 
    `http://localhost:5173`
 
-## Project Structure
+## Solution Structure
+
+```plaintext
+SalesTracker.sln
+├── SalesTracker.Api/                  # ASP.NET Core Web API (.NET 9)
+│   ├── Controllers/
+│   ├── Program.cs
+│   ├── appsettings.json
+│   ├── appsettings.Development.json
+│   ├── main.bicep                     # API infra (App Service plan + Web App)
+│   └── azure-pipelines.yml            # API CI/CD pipeline
+├── SalesTracker.Core/                 # Domain models, interfaces, contracts
+├── SalesTracker.Infrastructure/       # EF Core, repositories, data access
+├── salestracker.client/               # React + Vite client app
+│   ├── src/
+│   │   ├── api/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   └── main.tsx
+│   ├── staticwebapp.bicep             # Static Web App infra
+│   ├── azure-pipelines.client.yml     # Client CI/CD pipeline
+│   └── vite.config.ts
+└── README.md
+```
+
+## Client Structure (salestracker.client/src)
 
 ```plaintext
 src/
@@ -30,7 +55,7 @@ src/
 ├── layouts/           # Layout components
 ├── pages/             # Page components
 ├── routes/            # Application routes
-├── apis/              # API services
+├── api/               # API services
 ├── stores/            # State management
 ├── styles/            # Global styles
 ├── types/             # TypeScript type definitions
@@ -91,6 +116,27 @@ Access variables in your code:
 
 ```ts
 const apiUrl = import.meta.env.VITE_API_BASE_URL
+```
+
+### API Configuration
+
+- API project path: `SalesTracker.Api`
+- Main startup file: `SalesTracker.Api/Program.cs`
+- Local settings file: `SalesTracker.Api/appsettings.Development.json`
+
+Current behavior:
+
+- The API currently uses EF Core InMemory provider in `Program.cs` for persistence.
+- `ConnectionStrings:DefaultConnection` can exist in `appsettings*.json`, but it is only used after switching EF registration to SQL Server.
+
+Example connection string (development):
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=sales_tracker;User Id=sa;Password=your_password;TrustServerCertificate=true"
+  }
+}
 ```
 
 ## Azure DevOps Pipelines
