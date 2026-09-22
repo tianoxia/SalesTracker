@@ -126,17 +126,41 @@ const apiUrl = import.meta.env.VITE_API_BASE_URL
 
 Current behavior:
 
-- The API currently uses EF Core InMemory provider in `Program.cs` for persistence.
-- `ConnectionStrings:DefaultConnection` can exist in `appsettings*.json`, but it is only used after switching EF registration to SQL Server.
+- The API uses EF Core SQL Server in `Program.cs` via `UseSqlServer(...)`.
+- Development uses LocalDB through `ConnectionStrings:DefaultConnection`.
 
 Example connection string (development):
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=sales_tracker;User Id=sa;Password=your_password;TrustServerCertificate=true"
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=sales_tracker;Trusted_Connection=True;TrustServerCertificate=True;"
   }
 }
+```
+
+### EF Core Migrations (SQL Server)
+
+From solution root (`SalesTracker`), run:
+
+```bash
+dotnet ef migrations add InitialCreate \
+  --project .\SalesTracker.Infrastructure\SalesTracker.Infrastructure.csproj \
+  --startup-project .\SalesTracker.Api\SalesTracker.Api.csproj \
+  --context SalesTracker.Infrastructure.Data.SalesDbContext \
+  --output-dir Migrations
+```
+
+This creates migration files and updates `SalesDbContextModelSnapshot` under:
+
+- `SalesTracker.Infrastructure/Migrations`
+
+Apply migrations to LocalDB:
+
+```bash
+dotnet ef database update \
+  --project .\SalesTracker.Infrastructure\SalesTracker.Infrastructure.csproj \
+  --startup-project .\SalesTracker.Api\SalesTracker.Api.csproj
 ```
 
 ## Azure DevOps Pipelines

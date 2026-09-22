@@ -24,8 +24,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IDbConnectionFactory, SqlConnectionFactory>();
 builder.Services.AddDbContext<SalesDbContext>(options =>
-        options.UseInMemoryDatabase("SalesTrackerTestDB"));
-builder.Services.AddAutoMapper(typeof(MappingProfileConfiguration));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfileConfiguration>());
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();

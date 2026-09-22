@@ -135,6 +135,67 @@ label:after {
     color: #D8000C;
     background-color: #FFBABA;
 }
+
+.dashboard-shell {
+    max-width: 1040px;
+    margin: 2.5rem auto;
+    padding: 2.25rem;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-header {
+    margin-bottom: 1.75rem;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 2rem;
+    letter-spacing: -0.01em;
+}
+
+.dashboard-header p {
+    margin: 0.75rem 0 0;
+    color: #475569;
+    font-size: 1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.dashboard-tile {
+    display: block;
+    padding: 1.1rem 1.15rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background-color: #ffffff;
+    text-decoration: none;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.dashboard-tile:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-tile h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #0f172a;
+}
+
+.dashboard-tile p {
+    margin: 0.55rem 0 0;
+    color: #64748b;
+    font-size: 0.92rem;
+    line-height: 1.4;
+}
 /* Responsive adjustments */
 @media (max-width: 640px) {
     .dashboard h1 {
@@ -143,5 +204,16 @@ label:after {
     .sales-tracker-table {
         display: block;
         overflow-x: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-shell {
+        margin: 1.25rem;
+        padding: 1.5rem;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.6rem;
     }
 }

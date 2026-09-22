@@ -37,6 +37,10 @@ variables:
   templateLocation: 'centralus'
   apiProject: 'SalesTracker.Api/SalesTracker.Api.csproj'
   webAppName: 'salestracker-api-app'
+  sqlServerName: 'salestracker-sql-dev-rickyx'
+  sqlDatabaseName: 'sales_tracker'
+  sqlAdminLogin: 'sqladminuser'
+  sqlAdminPassword: '$(AZURE_SQL_ADMIN_PASSWORD)'
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
@@ -49,7 +53,7 @@ steps:
     location: '$(deploymentLocation)'
     templateLocation: 'Linked artifact'
     csmFile: 'SalesTracker.Api/main.bicep'
-    overrideParameters: '-location "$(templateLocation)"'
+    overrideParameters: '-location "$(templateLocation)" -appServiceName "$(webAppName)" -sqlServerName "$(sqlServerName)" -sqlDatabaseName "$(sqlDatabaseName)" -sqlAdminLogin "$(sqlAdminLogin)" -sqlAdminPassword "$(sqlAdminPassword)"'
     deploymentMode: 'Incremental'
 
 - task: UseDotNet@2
@@ -63,6 +67,17 @@ steps:
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
+
+- powershell: |
+    dotnet tool update --global dotnet-ef --version 9.*
+    $env:PATH = "$env:PATH;$env:USERPROFILE\\.dotnet\\tools"
+    dotnet ef database update `
+      --project .\SalesTracker.Infrastructure\SalesTracker.Infrastructure.csproj `
+      --startup-project .\SalesTracker.Api\SalesTracker.Api.csproj `
+      --context SalesTracker.Infrastructure.Data.SalesDbContext `
+      --connection "Server=tcp:$(sqlServerName).database.windows.net,1433;Initial Catalog=$(sqlDatabaseName);Persist Security Info=False;User ID=$(sqlAdminLogin);Password=$(sqlAdminPassword);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  displayName: 'Apply EF migrations to Azure SQL'
+  workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: VSBuild@1
   inputs:
